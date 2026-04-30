@@ -1,19 +1,19 @@
 {
   "name": "Rhythm Line",
   "short_name": "Rhythm Line",
-  "start_url": "/rhythm-line/index.html",
-  "scope": "/Rhythm-line/",
+  "start_url": "/rhythm-line/",
+  "scope": "/rhythm-line/",
   "display": "standalone",
   "background_color": "#050816",
   "theme_color": "#050816",
   "icons": [
     {
-      "src": "icon-192.png",
+      "src": "/rhythm-line/icons/icon-192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "icon-512.png",
+      "src": "/rhythm-line/icons/icon-512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
