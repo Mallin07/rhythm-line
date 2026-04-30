@@ -1,7 +1,7 @@
 {
   "name": "Rhythm Line",
   "short_name": "Rhythm Line",
-  "start_url": "/Rhythm-line/index.html",
+  "start_url": "/rhythm-line/index.html",
   "scope": "/Rhythm-line/",
   "display": "standalone",
   "background_color": "#050816",
