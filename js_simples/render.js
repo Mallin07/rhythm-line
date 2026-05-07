@@ -25,12 +25,17 @@ function drawStaticLane() {
   ctx.lineTo(canvas.width - 40, LANE_Y);
   ctx.stroke();
 
-  ctx.strokeStyle = '#e2e8f0';
-  ctx.lineWidth = 3;
-  ctx.beginPath();
-  ctx.moveTo(HIT_X, LANE_Y - 40);
-  ctx.lineTo(HIT_X, LANE_Y + 40);
-  ctx.stroke();
+  // La barra sigue existiendo en HIT_X, pero puede ocultarse visualmente
+  const showHitBar = typeof SHOW_HIT_BAR === 'undefined' ? true : SHOW_HIT_BAR;
+
+  if (showHitBar) {
+    ctx.strokeStyle = '#e2e8f0';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(HIT_X, LANE_Y - 40);
+    ctx.lineTo(HIT_X, LANE_Y + 40);
+    ctx.stroke();
+  }
 }
 
 function drawTimeSignature() {
@@ -200,7 +205,7 @@ function drawRestBlanca(x, y, hit) {
 
   ctx.save();
   ctx.fillStyle = color;
-  ctx.fillRect(x - w / 2, y + NOTE_SIZE * 0.05, w, h);
+  ctx.fillRect(x - w / 2, y - NOTE_SIZE * 0.23, w, h);
   ctx.restore();
 }
 
@@ -211,7 +216,7 @@ function drawRestRedonda(x, y, hit) {
 
   ctx.save();
   ctx.fillStyle = color;
-  ctx.fillRect(x - w / 2, y - NOTE_SIZE * 0.23, w, h);
+  ctx.fillRect(x - w / 2, y + NOTE_SIZE * 0.05, w, h);
   ctx.restore();
 }
 

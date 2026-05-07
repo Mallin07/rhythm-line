@@ -65,7 +65,35 @@ const LEVELS = {
   'examen-principiante': {
     path: '12examenprincipiante1/examenprincipiante1.html',
     medalKey: 'rhythmline_iniciacion_examenprincipiante1_medal'
-  }
+  },
+   'afi-1': {
+    path: '13afianzando1/afianzando1.html',
+    medalKey: 'rhythmline_iniciacion_afianzando1_medal'
+  },
+   'afi-2': {
+    path: '14afianzando2/afianzando2.html',
+    medalKey: 'rhythmline_iniciacion_afianzando2_medal'
+  },
+  'afi-3': {
+    path: '15afianzando3/afianzando3.html',
+    medalKey: 'rhythmline_iniciacion_afianzando3_medal'
+  },
+  'afi-4': {
+    path: '16afianzando4/afianzando4.html',
+    medalKey: 'rhythmline_iniciacion_afianzando4_medal'
+  },
+  'afi-5': {
+    path: '17afianzando5/afianzando5.html',
+    medalKey: 'rhythmline_iniciacion_afianzando5_medal'
+  },
+  'afi-6': {
+    path: '18afianzando6/afianzando6.html',
+    medalKey: 'rhythmline_iniciacion_afianzando6_medal'
+  },
+  'examen-principiante-2': {
+    path: '19examenprincipiante2/examenprincipiante2.html',
+    medalKey: 'rhythmline_iniciacion_examenprincipiante2_medal'
+  },
 };
 
 // ==========================
