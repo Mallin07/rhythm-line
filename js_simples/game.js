@@ -4,6 +4,14 @@ const feedbackEl = document.getElementById('feedback');
 const startBtn = document.getElementById('startBtn');
 
 // ==========================
+// PUNTUACIÓN
+// ==========================
+const PERFECT_SCORE = 300;
+const GOOD_SCORE = 100;
+const MISS_SCORE = -100;
+const COMBO_MULTIPLIER = 1.2;
+
+// ==========================
 // BOTÓN VOLVER A INICIACIÓN
 // ==========================
 const backBtn = document.getElementById('backBtn');
@@ -31,6 +39,15 @@ function setFeedback(text, type) {
   if (type) feedbackEl.classList.add(type);
 }
 
+function addScore(baseScore) {
+  const hasCombo = combo > 0;
+  const points = hasCombo
+    ? Math.round(baseScore * COMBO_MULTIPLIER)
+    : baseScore;
+
+  score += points;
+}
+
 // ==========================
 // NOTAS (instancias del juego)
 // ==========================
@@ -49,7 +66,7 @@ function createNotes() {
       beamToNext: n.beamToNext || false,
       beamFromPrev,
       tiedFromPrev,
-      judgementNote: !tiedFromPrev && !isRest, // silencios NO se juzgan al pasar
+      judgementNote: !tiedFromPrev && !isRest,
       hit: false,
       missed: false,
       currentX: null,
@@ -125,8 +142,13 @@ function drawNotes(timestamp) {
 
     if (timeToHit < -MISS_WINDOW && !note.hit && !note.missed && note.judgementNote) {
       note.missed = true;
+
+      score += MISS_SCORE;
       combo = 0;
+
+      scoreEl.textContent = score;
       comboEl.textContent = combo;
+
       setFeedback('FALLO', 'miss');
       playMissSound();
     }
@@ -190,28 +212,27 @@ function drawNotes(timestamp) {
 
   // --------- BARRAS DE COMPÁS ---------
   for (const barTime of bars) {
-  const timeToBar = barTime - elapsed;
+    const timeToBar = barTime - elapsed;
 
-  if (timeToBar <= TRAVEL_TIME && timeToBar >= -VISIBLE_AFTER_MS) {
-    const fraction = timeToBar / TRAVEL_TIME;
-    let x = HIT_X + distance * fraction;
+    if (timeToBar <= TRAVEL_TIME && timeToBar >= -VISIBLE_AFTER_MS) {
+      const fraction = timeToBar / TRAVEL_TIME;
+      let x = HIT_X + distance * fraction;
 
-    x -= BAR_X_OFFSET_PX;
+      x -= BAR_X_OFFSET_PX;
 
-    ctx.save();
-    ctx.strokeStyle = '#64748b';
-    ctx.lineWidth = 2;
-    ctx.setLineDash([6, 4]);
+      ctx.save();
+      ctx.strokeStyle = '#64748b';
+      ctx.lineWidth = 2;
+      ctx.setLineDash([6, 4]);
 
-    ctx.beginPath();
-    ctx.moveTo(x, LANE_Y - 60);
-    ctx.lineTo(x, LANE_Y + 60);
-    ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(x, LANE_Y - 60);
+      ctx.lineTo(x, LANE_Y + 60);
+      ctx.stroke();
 
-    ctx.restore();
+      ctx.restore();
+    }
   }
-}
-
 
   // --------- FIN ---------
   const lastTime = song[song.length - 1].time;
@@ -259,7 +280,7 @@ function handleHit() {
     }
   }
 
-  // 2) Mejor SILENCIO cercano (evitando silencios ya pasados)
+  // 2) Mejor SILENCIO cercano
   let bestRest = null;
   let bestRestDelta = Infinity;
 
@@ -281,16 +302,24 @@ function handleHit() {
   const restInWindow = bestRest && bestRestDelta <= GOOD_WINDOW;
 
   if (restInWindow && (!noteInWindow || bestRestDelta < bestDelta)) {
+    score += MISS_SCORE;
     combo = 0;
+
+    scoreEl.textContent = score;
     comboEl.textContent = combo;
+
     setFeedback('SILENCIO (NO TOCAR)', 'miss');
     playMissSound();
     return;
   }
 
   if (!noteInWindow) {
+    score += MISS_SCORE;
     combo = 0;
+
+    scoreEl.textContent = score;
     comboEl.textContent = combo;
+
     setFeedback('FALLO', 'miss');
     playMissSound();
     return;
@@ -299,13 +328,15 @@ function handleHit() {
   bestNote.hit = true;
 
   if (bestDelta <= PERFECT_WINDOW) {
-    score += 300;
+    addScore(PERFECT_SCORE);
     combo++;
+
     setFeedback('PERFECT', 'perfect');
     playHitSound(true);
   } else {
-    score += 100;
+    addScore(GOOD_SCORE);
     combo++;
+
     setFeedback('BIEN', 'good');
     playHitSound(false);
   }

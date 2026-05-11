@@ -17,7 +17,6 @@ const TRAVEL_TIME = 5 * BEAT_MS;
 
 // Configuración del juego
 const HIT_X = 300;
-const SHOW_HIT_BAR = false;
 const MISS_WINDOW = 250;
 const PERFECT_WINDOW = 80;
 const GOOD_WINDOW = 150;
